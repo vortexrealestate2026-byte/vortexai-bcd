@@ -1,40 +1,10 @@
-from celery import shared_task
-
-from tasks.agents_launcher import (
-    zillow_scraper,
-    redfin_scraper,
-    autotrader_scraper,
-    kijiji_vehicle_scraper,
-    deal_analyzer
-)
-
-US_CITIES = [
-    "Atlanta",
-    "Houston",
-    "Dallas",
-    "Phoenix",
-    "Tampa"
-]
-
-CANADA_CITIES = [
-    "Winnipeg",
-    "Steinbach",
-    "Regina"
-]
+import asyncio
+from src.tasks.agent_scheduler import launch_all_agents
 
 
-@shared_task
-def launch_all_agents():
+async def start_scheduler():
+    print("⏱ Scheduler started")
 
-    for city in US_CITIES:
-        zillow_scraper.delay(city)
-        redfin_scraper.delay(city)
-
-    for city in CANADA_CITIES:
-        autotrader_scraper.delay(city)
-        kijiji_vehicle_scraper.delay(city)
-
-    for _ in range(5):
-        deal_analyzer.delay()
-
-    return "All agents launched"
+    while True:
+        await launch_all_agents()
+        await asyncio.sleep(300)  # run every 5 minutes
