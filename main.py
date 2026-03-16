@@ -1,6 +1,13 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
 from app.tasks.scheduler import launch_all_agents
+from app.database import engine
+from app.models import Base
+
+# create DB tables
+Base.metadata.create_all(bind=engine)
+
 app = FastAPI(title="VORTEX API")
 
 # -------------------------------
@@ -9,7 +16,7 @@ app = FastAPI(title="VORTEX API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # tighten later
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -29,7 +36,7 @@ def health():
 
 @app.get("/start-agents")
 def start_agents():
-    launch_agents()
+    launch_all_agents.delay()
     return {"status": "AI agents launched"}
 
 # -------------------------------
@@ -38,12 +45,10 @@ def start_agents():
 
 @app.get("/properties")
 def get_properties():
-    # TODO: replace with PostgreSQL query
     return []
 
 @app.get("/deals")
 def get_deals(min_score: int | None = None, max_price: int | None = None):
-    # TODO: replace with PostgreSQL query
     return []
 
 # -------------------------------
@@ -69,6 +74,10 @@ def get_vehicles():
 @app.get("/leads")
 def get_leads():
     return []
+
+# -------------------------------
+# Financing approvals
+# -------------------------------
 
 @app.get("/approvals")
 def get_approvals():
