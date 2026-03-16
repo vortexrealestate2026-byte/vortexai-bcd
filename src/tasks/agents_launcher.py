@@ -1,10 +1,6 @@
 from celery import shared_task
-from src.services.data_service import save_property, save_vehicle
+from services.data_service import save_property, save_vehicle
 
-
-# -------------------------
-# REAL ESTATE SCRAPER
-# -------------------------
 
 @shared_task
 def zillow_scraper(city):
@@ -31,10 +27,6 @@ def redfin_scraper(city):
         source="redfin"
     )
 
-
-# -------------------------
-# VEHICLE SCRAPER
-# -------------------------
 
 @shared_task
 def autotrader_scraper(city):
@@ -63,10 +55,6 @@ def kijiji_vehicle_scraper(city):
         source="kijiji"
     )
 
-
-# -------------------------
-# DEAL ANALYZER
-# -------------------------
 
 @shared_task
 def deal_analyzer():
