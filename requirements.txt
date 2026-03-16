@@ -1,8 +1,34 @@
 fastapi
-uvicorn
+uvicorn[standard]
+
+# async tasks
 celery
 redis
+
+# database
 sqlalchemy
 psycopg2-binary
 alembic
+
+# env config
 python-dotenv
+
+# scraping
+requests
+beautifulsoup4
+lxml
+
+# async http
+httpx
+aiohttp
+
+# data processing
+pandas
+numpy
+
+# AI / scoring
+scikit-learn
+
+# utilities
+python-dateutil
+loguru
