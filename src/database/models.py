@@ -1,12 +1,12 @@
 from sqlalchemy import Column, Integer, String
-from app.database import Base
+from database import Base
 
 
 class Property(Base):
 
     __tablename__ = "properties"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True)
     city = Column(String)
     address = Column(String)
     price = Column(Integer)
@@ -17,7 +17,7 @@ class Vehicle(Base):
 
     __tablename__ = "vehicles"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True)
     city = Column(String)
     make = Column(String)
     model = Column(String)
