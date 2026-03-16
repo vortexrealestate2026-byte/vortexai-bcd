@@ -1,29 +1,29 @@
 import asyncio
 import random
+from src.services.deal_analyzer import analyze_property
 
-US_CITIES = [
+CITIES = [
     "Atlanta",
-    "Houston",
     "Dallas",
+    "Houston",
     "Phoenix",
-    "Tampa",
-    "Orlando",
-    "Charlotte"
+    "Tampa"
 ]
 
 async def run_property_agent():
 
     while True:
 
-        city = random.choice(US_CITIES)
+        city = random.choice(CITIES)
 
-        print(f"🔎 Scanning properties in {city}")
+        price = random.randint(90000,250000)
+        arv = random.randint(250000,400000)
 
-        # simulate deal detection
-        price = random.randint(90000, 250000)
-        arv = random.randint(250000, 400000)
+        result = analyze_property(price,arv)
 
-        if price < arv * 0.6:
-            print(f"🔥 DEAL FOUND in {city} price={price} arv={arv}")
+        print(f"🔎 Property scan {city} price={price} arv={arv}")
+
+        if result["score"] >= 7:
+            print(f"🔥 DEAL FOUND {city} profit={result['margin']}")
 
         await asyncio.sleep(15)
