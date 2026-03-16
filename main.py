@@ -6,10 +6,10 @@ app = FastAPI()
 
 @app.get("/")
 def root():
-    return {"status": "Vortex AI running"}
+    return {"status": "Vortex AI backend running"}
 
 
 @app.get("/start-agents")
 def start_agents():
     launch_all_agents.delay()
-    return {"message": "Agents started"}
+    return {"message": "AI agents started"}
