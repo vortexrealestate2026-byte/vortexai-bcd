@@ -1,12 +1,6 @@
 import asyncio
 import random
-
-CITIES = [
-    "Winnipeg",
-    "Steinbach",
-    "Regina",
-    "Calgary"
-]
+from src.services.deal_analyzer import analyze_vehicle
 
 CARS = [
     ("Toyota","Camry"),
@@ -19,13 +13,16 @@ async def run_vehicle_agent():
 
     while True:
 
-        city = random.choice(CITIES)
         car = random.choice(CARS)
-        price = random.randint(5000, 20000)
 
-        print(f"🚗 Vehicle scan {car[0]} {car[1]} in {city} price={price}")
+        price = random.randint(4000,18000)
+        market = random.randint(12000,25000)
 
-        if price < 9000:
-            print(f"🔥 FINANCE DEAL FOUND {car[0]} {car[1]} {price}")
+        result = analyze_vehicle(price,market)
+
+        print(f"🚗 Vehicle scan {car[0]} {car[1]} price={price} market={market}")
+
+        if result["score"] >= 7:
+            print(f"🔥 FINANCE DEAL {car[0]} {car[1]} profit={result['margin']}")
 
         await asyncio.sleep(20)
