@@ -1,6 +1,6 @@
 from celery import shared_task
 
-from src.tasks.agents_launcher import (
+from tasks.agents_launcher import (
     zillow_scraper,
     redfin_scraper,
     autotrader_scraper,
@@ -13,54 +13,28 @@ US_CITIES = [
     "Houston",
     "Dallas",
     "Phoenix",
-    "Tampa",
-    "Orlando",
-    "Charlotte",
-    "Indianapolis",
-    "Cleveland",
-    "Detroit"
+    "Tampa"
 ]
 
 CANADA_CITIES = [
     "Winnipeg",
     "Steinbach",
-    "Regina",
-    "Saskatoon",
-    "Calgary",
-    "Edmonton"
+    "Regina"
 ]
 
 
 @shared_task
-def launch_real_estate_agents():
+def launch_all_agents():
+
     for city in US_CITIES:
         zillow_scraper.delay(city)
         redfin_scraper.delay(city)
 
-    return "Real estate agents launched"
-
-
-@shared_task
-def launch_vehicle_agents():
     for city in CANADA_CITIES:
         autotrader_scraper.delay(city)
         kijiji_vehicle_scraper.delay(city)
 
-    return "Vehicle agents launched"
-
-
-@shared_task
-def launch_deal_analyzers():
-    for _ in range(10):
+    for _ in range(5):
         deal_analyzer.delay()
 
-    return "Deal analyzers launched"
-
-
-@shared_task
-def launch_all_agents():
-    launch_real_estate_agents.delay()
-    launch_vehicle_agents.delay()
-    launch_deal_analyzers.delay()
-
-    return "All AI agents launched"
+    return "All agents launched"
