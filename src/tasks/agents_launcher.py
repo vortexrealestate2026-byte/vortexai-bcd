@@ -1,62 +1,6 @@
-from celery import shared_task
-from services.data_service import save_property, save_vehicle
+from src.tasks.property_task import run_property_agent
 
 
-@shared_task
-def zillow_scraper(city):
-
-    print(f"Scraping Zillow in {city}")
-
-    save_property(
-        city=city,
-        address="123 Main St",
-        price=150000,
-        source="zillow"
-    )
-
-
-@shared_task
-def redfin_scraper(city):
-
-    print(f"Scraping Redfin in {city}")
-
-    save_property(
-        city=city,
-        address="45 Market St",
-        price=180000,
-        source="redfin"
-    )
-
-
-@shared_task
-def autotrader_scraper(city):
-
-    print(f"Scraping AutoTrader in {city}")
-
-    save_vehicle(
-        city=city,
-        make="Toyota",
-        model="Camry",
-        price=12000,
-        source="autotrader"
-    )
-
-
-@shared_task
-def kijiji_vehicle_scraper(city):
-
-    print(f"Scraping Kijiji in {city}")
-
-    save_vehicle(
-        city=city,
-        make="Honda",
-        model="Civic",
-        price=9000,
-        source="kijiji"
-    )
-
-
-@shared_task
-def deal_analyzer():
-
-    print("Analyzing deals...")
+async def launch_property_agent():
+    print("🏠 Launching Property Agent")
+    await run_property_agent()
