@@ -1,13 +1,19 @@
 from fastapi import FastAPI
 import asyncio
-from src.tasks.agent_scheduler import launch_all_agents
+
+from src.orchestrator.master_orchestrator import start_orchestrator
 
 app = FastAPI()
 
+
 @app.on_event("startup")
-async def start_agents():
-    asyncio.create_task(launch_all_agents())
+async def start_ai_system():
+
+    print("🚀 Launching Vortex AI System")
+
+    asyncio.create_task(start_orchestrator())
+
 
 @app.get("/")
 def root():
-    return {"status":"Vortex AI running"}
+    return {"status": "Vortex AI Running"}
