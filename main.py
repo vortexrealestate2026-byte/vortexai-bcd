@@ -7,9 +7,7 @@ app = FastAPI()
 
 
 @app.on_event("startup")
-async def start_ai_system():
-
-    print("🚀 Launching Vortex AI System")
+async def startup_event():
 
     asyncio.create_task(start_orchestrator())
 
