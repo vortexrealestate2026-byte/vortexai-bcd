@@ -1,10 +1,17 @@
 import asyncio
-from src.tasks.agent_scheduler import launch_all_agents
+from src.tasks.property_task import run_property_agent
+from src.tasks.vehicle_agent import run_vehicle_agent
 
 
-async def start_scheduler():
-    print("⏱ Scheduler started")
+async def launch_all_agents():
 
-    while True:
-        await launch_all_agents()
-        await asyncio.sleep(300)  # run every 5 minutes
+    print("🚀 Launching Vortex AI agents")
+
+    agents = [
+
+        asyncio.create_task(run_property_agent()),
+        asyncio.create_task(run_vehicle_agent()),
+
+    ]
+
+    await asyncio.gather(*agents)
