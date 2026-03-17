@@ -34,3 +34,4 @@ python-dateutil
 loguru
 beautifulsoup4
 requests
+.env
