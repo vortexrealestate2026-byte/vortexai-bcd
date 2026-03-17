@@ -1,5 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
+from celery_app import celery_app
+
 
 def scrape_properties():
 
@@ -19,3 +21,8 @@ def scrape_properties():
         })
 
     return properties
+
+
+def get_properties():
+    celery_app.send_task("tasks.scrape_properties")
+    return {"status": "scraper started"}
