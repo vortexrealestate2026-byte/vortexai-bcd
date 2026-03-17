@@ -1,22 +1,67 @@
-from celery import Celery
-import os
+import logging
+from src.celery_app import celery_app
 
-# Redis connection
-REDIS_URL = os.getenv(
-    "REDIS_URL",
-    "redis://localhost:6379/0"
-)
+logger = logging.getLogger("vortex-ai-celery")
 
-celery_app = Celery(
-    "vortex_ai",
-    broker=REDIS_URL,
-    backend=REDIS_URL,
-)
 
-celery_app.conf.update(
-    task_serializer="json",
-    accept_content=["json"],
-    result_serializer="json",
-    timezone="UTC",
-    enable_utc=True,
-)
+# --------------------------------------------------
+# EXAMPLE TASK (TEST)
+# --------------------------------------------------
+
+@celery_app.task(name="tasks.test_task")
+def test_task():
+    logger.info("Celery test task executed")
+    return {"status": "success", "message": "Celery is working"}
+
+
+# --------------------------------------------------
+# PROPERTY SCRAPER TASK
+# --------------------------------------------------
+
+@celery_app.task(name="tasks.scrape_properties")
+def scrape_properties(city: str):
+
+    logger.info(f"Starting property scrape for {city}")
+
+    # Placeholder logic
+    properties_found = 25
+
+    return {
+        "city": city,
+        "properties_found": properties_found
+    }
+
+
+# --------------------------------------------------
+# VEHICLE SCRAPER TASK
+# --------------------------------------------------
+
+@celery_app.task(name="tasks.scrape_vehicles")
+def scrape_vehicles():
+
+    logger.info("Starting vehicle scrape")
+
+    vehicles_found = 12
+
+    return {
+        "vehicles_found": vehicles_found
+    }
+
+
+# --------------------------------------------------
+# DEAL ANALYSIS TASK
+# --------------------------------------------------
+
+@celery_app.task(name="tasks.analyze_deal")
+def analyze_deal(price: float, arv: float, rehab: float):
+
+    mao = (arv * 0.7) - rehab
+    profit = mao - price
+
+    return {
+        "price": price,
+        "arv": arv,
+        "rehab": rehab,
+        "mao": mao,
+        "estimated_profit": profit
+    }
