@@ -1,12 +1,25 @@
-from datetime import datetime, timedelta
-from jose import jwt
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from .config import settings
+from src.core.security import create_access_token
 
-class TokenData(BaseModel):
-    user_id: str | None = None
+router = APIRouter(prefix="/api/auth", tags=["auth"])
 
-def create_access_token(user_id: str, expires_minutes: int = 60):
-    expire = datetime.utcnow() + timedelta(minutes=expires_minutes)
-    payload = {"sub": user_id, "exp": expire}
-    return jwt.encode(payload, settings.SECRET_KEY, algorithm=settings.JWT_ALGORITHM)
+
+class LoginRequest(BaseModel):
+    email: str
+    password: str
+
+
+@router.post("/login")
+def login(data: LoginRequest):
+
+    # Example authentication logic
+    if data.email != "admin@example.com":
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+
+    token = create_access_token(user_id="1")
+
+    return {
+        "access_token": token,
+        "token_type": "bearer"
+    }
