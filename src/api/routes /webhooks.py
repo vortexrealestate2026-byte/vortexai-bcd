@@ -1,7 +1,9 @@
-def handle_esign_webhook(payload: dict):
-    print("[Webhook] eSign event received:", payload)
-    # TODO: update contract status in DB
+from fastapi import APIRouter, Request
 
-def handle_ingestion_webhook(payload: dict):
-    print("[Webhook] Ingestion event:", payload)
-    # TODO: trigger ingestion worker or update logs
+router = APIRouter(prefix="/api/webhooks", tags=["webhooks"])
+
+
+@router.post("/lead")
+async def lead_webhook(request: Request):
+    data = await request.json()
+    return {"received": data}
