@@ -32,3 +32,5 @@ scikit-learn
 # utilities
 python-dateutil
 loguru
+beautifulsoup4
+requests
