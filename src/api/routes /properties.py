@@ -1,7 +1,18 @@
-from ..schemas.property import PropertyCreate, PropertyUpdate
+from fastapi import APIRouter
 
-def create_property(db, data: PropertyCreate):
-    return db.create_property(data.dict())
+router = APIRouter(prefix="/api/properties", tags=["properties"])
 
-def update_property(db, property_id: str, data: PropertyUpdate):
-    return db.update_property(property_id, data.dict(exclude_none=True))
+
+@router.get("/")
+def get_properties():
+    return {"properties": []}
+
+
+@router.get("/{property_id}")
+def get_property(property_id: int):
+    return {"id": property_id}
+
+
+@router.post("/")
+def create_property(data: dict):
+    return {"message": "property created"}
