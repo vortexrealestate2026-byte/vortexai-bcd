@@ -1,32 +1,10 @@
-import requests
-from bs4 import BeautifulSoup
-import logging
+PROPERTY_SITES = [
 
-logger = logging.getLogger("vortex-ai")
+    "https://www.zillow.com/homes/for_sale/",
+    "https://www.redfin.com/",
+    "https://www.realtor.com/realestateandhomes-search/",
+    "https://www.auction.com/residential/",
+    "https://www.foreclosure.com/listings/",
+    "https://craigslist.org/search/rea",
 
-
-def scrape_site(url):
-
-    listings = []
-
-    try:
-
-        r = requests.get(url, timeout=10)
-
-        soup = BeautifulSoup(r.text, "html.parser")
-
-        cards = soup.find_all("article")
-
-        for c in cards[:10]:
-
-            listings.append({
-                "price": 120000,
-                "sqft": 1500,
-                "address": "Unknown"
-            })
-
-    except Exception as e:
-
-        logger.error(f"Scrape error: {e}")
-
-    return listings
+]
