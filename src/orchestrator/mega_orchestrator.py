@@ -1,10 +1,27 @@
 import asyncio
-from src.agents.property_agent import run_property_agent
+import logging
 
-async def start_mega_orchestrator():
+logger = logging.getLogger("vortex-ai")
+
+async def run_agent(agent_id):
 
     while True:
 
-        run_property_agent()
+        logger.info(f"Agent {agent_id} running task")
 
-        await asyncio.sleep(60)
+        await asyncio.sleep(10)
+
+
+async def start_mega_orchestrator():
+
+    logger.info("🧠 Mega Orchestrator Booting")
+
+    tasks = []
+
+    for i in range(500):
+
+        tasks.append(asyncio.create_task(run_agent(i)))
+
+    logger.info("⚡ 500 agents launched")
+
+    await asyncio.gather(*tasks)
