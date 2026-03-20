@@ -1,35 +1,28 @@
+# v2
 # FASTAPI SERVER
 fastapi
 uvicorn[standard]
-
 # ASYNC TASK QUEUE
 celery
 redis
-
 # DATABASE
 sqlalchemy
 psycopg2-binary
 alembic
-
 # ENVIRONMENT CONFIG
 python-dotenv
-
 # SCRAPING
 requests
 beautifulsoup4
 lxml
-
 # ASYNC HTTP
 httpx
 aiohttp
-
 # DATA PROCESSING
 pandas
 numpy
-
 # AI / DEAL SCORING
 scikit-learn
-
 # UTILITIES
 python-dateutil
 loguru
