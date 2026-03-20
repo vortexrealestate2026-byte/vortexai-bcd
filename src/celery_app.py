@@ -1,4 +1,11 @@
+import os
+import sys
 
+print("=== DEBUG START ===")
+print("CWD:", os.getcwd())
+print("FILES:", os.listdir())
+print("PYTHONPATH:", sys.path)
+print("=== DEBUG END ===")
 import os
 from celery import Celery
 from dotenv import load_dotenv
